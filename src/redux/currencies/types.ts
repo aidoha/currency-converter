@@ -1,9 +1,7 @@
 export type CurrencyType = {
-  [key: string]: {
-    currencyName: string;
-    currencySymbol: string;
-    id: string;
-  };
+  currencyName: string;
+  currencySymbol: string;
+  id: string;
 };
 
 export type CurrenciesState = {

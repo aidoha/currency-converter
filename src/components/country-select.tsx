@@ -7,21 +7,25 @@ import { CurrenciesState } from '../redux/currencies/types';
 type CountrySelectProps = {
   defaultValue: string;
   getCurrencies: () => void;
-  state?: any;
+  currenciesState?: CurrenciesState;
 };
 
 const CountrySelect = ({
-  defaultValue,
+  defaultValue = '',
   getCurrencies,
-  state,
+  currenciesState,
 }: CountrySelectProps): React.ReactElement => {
-  console.log('state', state);
   useEffect(() => {
     getCurrencies();
   }, []);
+  console.log(currenciesState?.currencies);
   return (
     <div>
-      <select defaultValue={defaultValue} />
+      <select defaultValue={defaultValue}>
+        {/* {currenciesState?.currencies.map((option) => (
+          <option></option>
+        ))} */}
+      </select>
     </div>
   );
 };
