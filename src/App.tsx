@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -12,27 +12,47 @@ import CountrySelect from './components/country-select';
 
 import './App.css';
 
-type AppProps = {};
+type AppProps = {
+  fromCurrency: {
+    amount: string;
+    code: string;
+  };
+  toCurrency: {
+    amount: string;
+    code: string;
+  };
+  onChangeAmountFromCurrency: (amount: string) => void;
+  onChangeCodeFromCurrency: (code: string) => void;
+  onChangeCodeToCurrency: (code: string) => void;
+};
 
-const App: React.FC = (props): React.ReactElement => {
-  console.log(props);
-  const [fromCurrency, setFromCurrency] = useState<string>('');
-  const [toCurrency, setToCurrency] = useState<string>('');
+const App = ({
+  fromCurrency,
+  toCurrency,
+  onChangeAmountFromCurrency,
+  onChangeCodeFromCurrency,
+  onChangeCodeToCurrency,
+}: AppProps): React.ReactElement => {
+  const handleAmountFromCurrency = (e: SyntheticEvent<HTMLInputElement>) => {
+    onChangeAmountFromCurrency(e.currentTarget.value);
+  };
+
   return (
     <div className='App'>
-      <input />
+      <input value={fromCurrency.amount} onChange={handleAmountFromCurrency} />
       <CountrySelect
         isFromCurrency
-        value={fromCurrency}
-        setToCurrency={setToCurrency}
-        setFromCurrency={setFromCurrency}
+        value={fromCurrency.code}
+        setToCurrency={onChangeCodeToCurrency}
+        setFromCurrency={onChangeCodeFromCurrency}
       />
       <div>calculated value</div>
       <CountrySelect
-        value={toCurrency}
-        setToCurrency={setToCurrency}
-        setFromCurrency={setFromCurrency}
+        value={toCurrency.code}
+        setToCurrency={onChangeCodeToCurrency}
+        setFromCurrency={onChangeCodeFromCurrency}
       />
+      <button>Convert</button>
     </div>
   );
 };
