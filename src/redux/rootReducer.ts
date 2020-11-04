@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
-import { currenciesReducer } from './currencies/reducer';
+import { getCurrenciesReducer } from './get-currencies/reducer';
+import { currencyReducer } from './currency/reducer';
 
 export const rootReducer = combineReducers({
-  currenciesState: currenciesReducer,
+  currenciesState: getCurrenciesReducer,
+  currencyState: currencyReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>

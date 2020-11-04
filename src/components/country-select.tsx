@@ -1,36 +1,53 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, SyntheticEvent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { getCurrencies } from '../redux/currencies/actionsCreators';
-import { CurrenciesState } from '../redux/currencies/types';
+import { getCurrencies } from '../redux/get-currencies/actionsCreators';
+import { CurrenciesState } from '../redux/get-currencies/types';
+import { RootState } from '../redux/rootReducer';
+import { getCurrenciesState } from '../redux/get-currencies/selectors';
 
 type CountrySelectProps = {
-  defaultValue: string;
+  isFromCurrency?: boolean;
+  value: string;
+  setFromCurrency: (value: string) => void;
+  setToCurrency: (value: string) => void;
   getCurrencies: () => void;
   currenciesState?: CurrenciesState;
 };
 
 const CountrySelect = ({
-  defaultValue = '',
+  value,
+  setFromCurrency,
+  setToCurrency,
+  isFromCurrency,
   getCurrencies,
   currenciesState,
 }: CountrySelectProps): React.ReactElement => {
   useEffect(() => {
     getCurrencies();
   }, []);
-  console.log(currenciesState?.currencies);
+
+  const onChangeCurrency = (e: SyntheticEvent<HTMLSelectElement>) => {
+    const { value } = e.currentTarget;
+    isFromCurrency ? setFromCurrency(value) : setToCurrency(value);
+  };
+
   return (
     <div>
-      <select defaultValue={defaultValue}>
-        {/* {currenciesState?.currencies.map((option) => (
-          <option></option>
-        ))} */}
+      <select value={value} onChange={onChangeCurrency}>
+        {currenciesState?.currencies.map((option) => (
+          <option key={option.id}>{option.id}</option>
+        ))}
       </select>
     </div>
   );
 };
 
-const mapStateToProps = (state: CurrenciesState) => state;
+const mapStateToProps = (state: RootState) => {
+  return {
+    currenciesState: getCurrenciesState(state),
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
