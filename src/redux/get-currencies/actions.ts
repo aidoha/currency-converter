@@ -4,16 +4,12 @@ import { CurrenciesActionTypes, CurrencyType } from './types';
 export interface CurrenciesSuccessActionI
   extends Action<CurrenciesActionTypes> {
   type: CurrenciesActionTypes.SUCCESS;
-  payload: {
-    currencies: Array<CurrencyType>;
-  };
+  payload: Array<CurrencyType>;
 }
 export interface CurrenciesFailureActionI
   extends Action<CurrenciesActionTypes> {
   type: CurrenciesActionTypes.FAILURE;
-  payload: {
-    error: any;
-  };
+  payload: any;
 }
 export interface CurrenciesStartedActionI
   extends Action<CurrenciesActionTypes> {

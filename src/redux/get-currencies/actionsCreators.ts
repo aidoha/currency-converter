@@ -12,9 +12,7 @@ const getCurrenciesSuccess = (
   currencies: Array<CurrencyType>
 ): CurrenciesSuccessActionI => ({
   type: CurrenciesActionTypes.SUCCESS,
-  payload: {
-    currencies,
-  },
+  payload: currencies,
 });
 
 const getCurrenciesStarted = (): CurrenciesStartedActionI => ({
@@ -23,9 +21,7 @@ const getCurrenciesStarted = (): CurrenciesStartedActionI => ({
 
 const getCurrenciesFailure = (error: any): CurrenciesFailureActionI => ({
   type: CurrenciesActionTypes.FAILURE,
-  payload: {
-    error,
-  },
+  payload: error,
 });
 
 export const getCurrencies = () => {

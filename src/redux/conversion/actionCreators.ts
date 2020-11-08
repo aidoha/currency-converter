@@ -21,9 +21,7 @@ const conversionSuccess = (
 
 const conversionFailure = (error: any): ConversionFailureActionI => ({
   type: ConversionActionTypes.FAILURE,
-  payload: {
-    error,
-  },
+  payload: error,
 });
 
 export const postConversion = (currencyPair: string) => {

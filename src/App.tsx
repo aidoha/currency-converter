@@ -1,41 +1,69 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useEffect } from 'react';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import CountrySelect from './components/country-select';
+
 import {
   onChangeAmountFromCurrency,
   onChangeCodeFromCurrency,
   onChangeCodeToCurrency,
 } from './redux/currency/actionCreators';
+import { CurrencyState } from './redux/currency/types';
 import { getCurrencyState } from './redux/currency/selectors';
+
+import { postConversion } from './redux/conversion/actionCreators';
+import { ConversionState } from './redux/conversion/types';
+import { getConversionState } from './redux/conversion/selectors';
+
+import { getCurrencies } from './redux/get-currencies/actionsCreators';
+import { CurrenciesState } from './redux/get-currencies/types';
+import { getCurrenciesState } from './redux/get-currencies/selectors';
+
 import { RootState } from './redux/rootReducer';
-import CountrySelect from './components/country-select';
 
 import './App.css';
 
 type AppProps = {
-  fromCurrency: {
-    amount: string;
-    code: string;
-  };
-  toCurrency: {
-    amount: string;
-    code: string;
-  };
+  conversionState: ConversionState;
+  currencyState: CurrencyState;
+  currenciesState: CurrenciesState;
   onChangeAmountFromCurrency: (amount: string) => void;
   onChangeCodeFromCurrency: (code: string) => void;
   onChangeCodeToCurrency: (code: string) => void;
+  postConversion: (currencyPair: string) => void;
+  getCurrencies: () => void;
 };
 
 const App = ({
-  fromCurrency,
-  toCurrency,
+  conversionState,
+  currencyState,
+  currenciesState,
   onChangeAmountFromCurrency,
   onChangeCodeFromCurrency,
   onChangeCodeToCurrency,
+  postConversion,
+  getCurrencies,
 }: AppProps): React.ReactElement => {
-  const handleAmountFromCurrency = (e: SyntheticEvent<HTMLInputElement>) => {
-    onChangeAmountFromCurrency(e.currentTarget.value);
+  const { fromCurrency, toCurrency } = currencyState;
+  const { loading, error, conversionResult } = conversionState;
+
+  const handleAmountFromCurrency = (
+    e: SyntheticEvent<HTMLInputElement>
+  ): void => {
+    const { value } = e.currentTarget;
+    onChangeAmountFromCurrency(value);
   };
+
+  const handlePostConversion = (): void => {
+    postConversion(`${fromCurrency.code}_${toCurrency.code}`);
+  };
+
+  useEffect(() => {
+    getCurrencies();
+  }, []);
+
+  // console.log('conversionState', conversionState);
+  // console.log('getCurrenciesState', currenciesState);
 
   return (
     <div className='App'>
@@ -45,19 +73,31 @@ const App = ({
         value={fromCurrency.code}
         setToCurrency={onChangeCodeToCurrency}
         setFromCurrency={onChangeCodeFromCurrency}
+        currenciesState={currenciesState}
       />
-      <div>calculated value</div>
+      <div>
+        {loading && <div>loading...</div>}
+        {error && <div>error!</div>}
+      </div>
       <CountrySelect
         value={toCurrency.code}
         setToCurrency={onChangeCodeToCurrency}
         setFromCurrency={onChangeCodeFromCurrency}
+        currenciesState={currenciesState}
       />
-      <button>Convert</button>
+      <button onClick={handlePostConversion}>Convert</button>
     </div>
   );
 };
 
-const mapStateToProps = (state: RootState) => getCurrencyState(state);
+const mapStateToProps = (state: RootState) => {
+  console.log('state', state)
+  return {
+    currencyState: getCurrencyState(state),
+    conversionState: getConversionState(state),
+    currenciesState: getCurrenciesState(state),
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
@@ -65,6 +105,8 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
       onChangeAmountFromCurrency,
       onChangeCodeFromCurrency,
       onChangeCodeToCurrency,
+      postConversion,
+      getCurrencies,
     },
     dispatch
   );

@@ -1,7 +1,6 @@
 import {
   FromCurrencyAmountActionI,
   FromCurrencyCodeActionI,
-  ToCurrencyAmountActionI,
   ToCurrencyCodeActionI,
 } from './actions';
 import { CurrencyActionTypes } from './types';
@@ -21,15 +20,6 @@ export const onChangeCodeFromCurrency = (
   type: CurrencyActionTypes.FROM_CURRENCY_CODE,
   payload: {
     code,
-  },
-});
-
-export const onChangeAmountToCurrency = (
-  amount: string
-): ToCurrencyAmountActionI => ({
-  type: CurrencyActionTypes.TO_CURRENCY_AMOUNT,
-  payload: {
-    amount,
   },
 });
 

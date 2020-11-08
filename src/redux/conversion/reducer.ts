@@ -7,7 +7,7 @@ const initialState = {
   error: null,
 };
 
-export const currencyReducer = (
+export const conversionReducer = (
   state: ConversionState = initialState,
   action: ConversionActions
 ) => {

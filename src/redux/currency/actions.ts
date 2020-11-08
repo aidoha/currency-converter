@@ -14,12 +14,6 @@ export interface FromCurrencyCodeActionI extends Action<CurrencyActionTypes> {
   };
 }
 
-export interface ToCurrencyAmountActionI extends Action<CurrencyActionTypes> {
-  type: CurrencyActionTypes.TO_CURRENCY_AMOUNT;
-  payload: {
-    amount: string;
-  };
-}
 export interface ToCurrencyCodeActionI extends Action<CurrencyActionTypes> {
   type: CurrencyActionTypes.TO_CURRENCY_CODE;
   payload: {
@@ -30,5 +24,4 @@ export interface ToCurrencyCodeActionI extends Action<CurrencyActionTypes> {
 export type CurrencyActions =
   | FromCurrencyAmountActionI
   | FromCurrencyCodeActionI
-  | ToCurrencyAmountActionI
   | ToCurrencyCodeActionI;

@@ -22,13 +22,13 @@ export const getCurrenciesReducer = (
         ...state,
         loading: false,
         error: null,
-        currencies: action.payload.currencies,
+        currencies: action.payload,
       };
     case CurrenciesActionTypes.FAILURE:
       return {
         ...state,
         loading: false,
-        error: action.payload.error,
+        error: action.payload,
       };
     default:
       return state;

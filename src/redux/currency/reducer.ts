@@ -7,7 +7,6 @@ const initialState = {
     code: '',
   },
   toCurrency: {
-    amount: '',
     code: '',
   },
 };
@@ -30,15 +29,7 @@ export const currencyReducer = (
         ...state,
         fromCurrency: {
           ...state.fromCurrency,
-          amount: action.payload.code,
-        },
-      };
-    case CurrencyActionTypes.TO_CURRENCY_AMOUNT:
-      return {
-        ...state,
-        toCurrency: {
-          ...state.toCurrency,
-          amount: action.payload.amount,
+          code: action.payload.code,
         },
       };
     case CurrencyActionTypes.TO_CURRENCY_CODE:
@@ -46,7 +37,7 @@ export const currencyReducer = (
         ...state,
         toCurrency: {
           ...state.toCurrency,
-          amount: action.payload.code,
+          code: action.payload.code,
         },
       };
     default:
