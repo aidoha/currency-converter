@@ -62,9 +62,6 @@ const App = ({
     getCurrencies();
   }, []);
 
-  // console.log('conversionState', conversionState);
-  // console.log('getCurrenciesState', currenciesState);
-
   return (
     <div className='App'>
       <input value={fromCurrency.amount} onChange={handleAmountFromCurrency} />
@@ -91,7 +88,7 @@ const App = ({
 };
 
 const mapStateToProps = (state: RootState) => {
-  console.log('state', state)
+  console.log('state', state);
   return {
     currencyState: getCurrencyState(state),
     conversionState: getConversionState(state),
