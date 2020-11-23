@@ -88,7 +88,6 @@ const App = ({
 };
 
 const mapStateToProps = (state: RootState) => {
-  console.log('state', state);
   return {
     currencyState: getCurrencyState(state),
     conversionState: getConversionState(state),
